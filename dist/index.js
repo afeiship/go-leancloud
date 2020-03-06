@@ -2,8 +2,8 @@
  * name: @feizheng/sso-baidu-pan
  * description: Sso for baidu pan.
  * url: https://github.com/afeiship/sso-baidu-pan
- * version: 1.0.0
- * date: 2020-03-06 22:08:53
+ * version: 1.0.1
+ * date: 2020-03-06 22:10:19
  * license: MIT
  */
 

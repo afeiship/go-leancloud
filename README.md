@@ -8,7 +8,12 @@ npm install -S @feizheng/sso-baidu-pan
 
 ## usage
 ```js
-import boilerplateNodePackage from '@feizheng/sso-baidu-pan';
+import ssoBaiduPan from '@feizheng/sso-baidu-pan';
 
-// code goes here
+const cookies = await ssoBaiduPan({
+  username: 'YOUR_QQ_NO',
+  password: 'YOUR_PASSWORD'
+});
+// set cookies
+// page.setCookie(...cookies)
 ```
