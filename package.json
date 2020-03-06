@@ -1,0 +1,38 @@
+{
+  "name": "@feizheng/sso-baidu-pan",
+  "version": "1.0.0",
+  "description": "Sso for baidu pan.",
+  "homepage": "https://github.com/afeiship/sso-baidu-pan",
+  "author": {
+    "name": "afei",
+    "email": "1290657123@qq.com"
+  },
+  "scripts": {
+    "build": "gulp",
+    "test": "jest"
+  },
+  "main": "dist/index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@feizheng/gulp-pkg-header": "^1.0.2",
+    "@feizheng/next-nice-comments": "^1.0.1",
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-header": "^2.0.9",
+    "gulp-load-plugins": "^2.0.2",
+    "gulp-size": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "jest": "^25.1.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@feizheng/next-node-cookie": "^1.0.0",
+    "@feizheng/sso-qq-ptlogin2": "^1.0.2",
+    "puppeteer": "^2.1.1"
+  }
+}
