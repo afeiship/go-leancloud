@@ -17,3 +17,6 @@ const cookies = await ssoBaiduPan({
 // set cookies
 // page.setCookie(...cookies)
 ```
+
+## ubuntu
+- https://github.com/puppeteer/puppeteer/issues/2462

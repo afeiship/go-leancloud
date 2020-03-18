@@ -13,15 +13,16 @@ const DEFAULT_OPTIONS = {
 
 export default async (inOptions) => {
   const options = Object.assign({}, DEFAULT_OPTIONS, inOptions);
+  const timeout = { timeout: 0, waitUntil: 'domcontentloaded' };
   const browser = await puppeteer.launch(options);
   const page = await browser.newPage();
-  await page.goto('https://pan.baidu.com/');
+  await page.goto('https://pan.baidu.com/', timeout);
   await page.waitForSelector('.bd-acc-qzone');
   await page.click('.bd-acc-qzone .phoenix-btn-item');
   return new Promise((resolve) => {
     page.addListener('popup', async (popup) => {
       await ssoQqPtlogin2(popup, inOptions);
-      await page.goto('https://pan.baidu.com/disk/home', { timeout: 0, waitUntil: 'domcontentloaded' });
+      await page.goto('https://pan.baidu.com/disk/home', timeout);
       const cookies = await page.cookies();
       const html = await page.content();
       const matches = html.match(TOKEN_RE);
