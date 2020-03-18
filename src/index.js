@@ -13,7 +13,7 @@ const DEFAULT_OPTIONS = {
 
 export default async (inOptions) => {
   const options = Object.assign({}, DEFAULT_OPTIONS, inOptions);
-  const browser = await puppeteer.launch({ headless: options.headless, args: options.args });
+  const browser = await puppeteer.launch(options);
   const page = await browser.newPage();
   await page.goto('https://pan.baidu.com/');
   await page.waitForSelector('.bd-acc-qzone');
