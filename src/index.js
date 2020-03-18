@@ -7,12 +7,13 @@ const DEFAULT_OPTIONS = {
   username: null,
   password: null,
   headless: true,
-  stringify: false
+  stringify: false,
+  args: ['--no-sandbox']
 };
 
 export default async (inOptions) => {
   const options = Object.assign({}, DEFAULT_OPTIONS, inOptions);
-  const browser = await puppeteer.launch({ headless: options.headless });
+  const browser = await puppeteer.launch({ headless: options.headless, args: options.args });
   const page = await browser.newPage();
   await page.goto('https://pan.baidu.com/');
   await page.waitForSelector('.bd-acc-qzone');
