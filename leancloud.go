@@ -2,18 +2,30 @@ package leancloud
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 )
 
-// func Set(key string, value interface{}) {}
+// LeanCloudClient is a struct to hold necessary configurations and an HTTP client
+type LeanCloudClient struct {
+	lcId    string
+	lcKey   string
+	baseURL string
+	client  *http.Client
+}
 
-var lcId = os.Getenv("LEANCLOUD_ID")
-var lcKey = os.Getenv("LEANCLOUD_KEY")
-var lcHost = os.Getenv("LEANCLOUD_HOST")
-var apiBaseURL = "https://" + lcHost + "/1.1/classes/options"
+// New creates a new instance of LeanCloudClient
+func New() *LeanCloudClient {
+	return &LeanCloudClient{
+		lcId:    os.Getenv("LEANCLOUD_ID"),
+		lcKey:   os.Getenv("LEANCLOUD_KEY"),
+		baseURL: "https://" + os.Getenv("LEANCLOUD_HOST") + "/1.1/classes/options",
+		client:  &http.Client{},
+	}
+}
 
 type LcResult struct {
 	Key       string `json:"key"`
@@ -23,44 +35,48 @@ type LcResult struct {
 	ObjectId  string `json:"objectId"`
 }
 
-func Get(key string) LcResult {
-	client := &http.Client{}
-	resURL := apiBaseURL + "/" + key
-	req, err := http.NewRequest("GET", resURL, nil)
+// Get retrieves a key-value pair from LeanCloud
+func (c *LeanCloudClient) Get(key string) (LcResult, error) {
+	resurl := fmt.Sprintf("%s/%s", c.baseURL, key)
+	req, err := http.NewRequest("GET", resurl, nil)
 	if err != nil {
-		log.Fatal(err)
+		return LcResult{}, err
 	}
 
-	// add headers
-	req.Header.Add("X-LC-Id", lcId)
-	req.Header.Add("X-LC-Key", lcKey)
+	// Add headers
+	req.Header.Add("X-LC-Id", c.lcId)
+	req.Header.Add("X-LC-Key", c.lcKey)
 	req.Header.Add("Content-Type", "application/json")
-	resp, err := client.Do(req)
 
+	resp, err := c.client.Do(req)
 	if err != nil {
-		log.Fatal(err)
+		return LcResult{}, err
 	}
-
 	defer resp.Body.Close()
 
-	// 读取响应
+	if resp.StatusCode != http.StatusOK {
+		return LcResult{}, errors.New("failed to retrieve data, status code: " + resp.Status)
+	}
+
+	// Parse response
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		return LcResult{}, err
 	}
 
-	jsonBody := LcResult{}
-
-	err = json.Unmarshal(body, &jsonBody)
-	if err != nil {
-		log.Fatal(err)
+	var jsonBody LcResult
+	if err := json.Unmarshal(body, &jsonBody); err != nil {
+		return LcResult{}, err
 	}
 
-	return jsonBody
+	return jsonBody, nil
 }
 
-// get Value
-func Value(key string) any {
-	result := Get(key)
-	return result.Value
+// Value fetches only the value associated with a given key
+func (c *LeanCloudClient) Value(key string) (any, error) {
+	result, err := c.Get(key)
+	if err != nil {
+		return nil, err
+	}
+	return result.Value, nil
 }
