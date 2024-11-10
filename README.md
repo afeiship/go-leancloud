@@ -15,6 +15,7 @@ import (
 	"log"
 
 	"github.com/afeiship/go-leancloud"
+	"github.com/tidwall/gjson"
 )
 
 var client = leancloud.New()
@@ -39,6 +40,11 @@ func main() {
 		log.Fatalf("Failed to get value: %v", err)
 	}
 	fmt.Printf("Value: %v\n", value)
+
+	// get nested value
+	value := result.Value
+	age := gjson.Get(value, "age")
+	fmt.Printf("Age: %v\n", age)
 }
 ```
 
