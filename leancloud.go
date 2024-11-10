@@ -1,6 +1,7 @@
 package leancloud
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -79,4 +80,40 @@ func (c *LeanCloudClient) Value(key string) (any, error) {
 		return nil, err
 	}
 	return result.Value, nil
+}
+
+// put
+func (c *LeanCloudClient) Put(key string, value any) error {
+	resurl := fmt.Sprintf("%s/%s", c.baseURL, key)
+	req, err := http.NewRequest("PUT", resurl, nil)
+	if err != nil {
+		return err
+	}
+
+	// Add headers
+	req.Header.Add("X-LC-Id", c.lcId)
+	req.Header.Add("X-LC-Key", c.lcKey)
+	req.Header.Add("Content-Type", "application/json")
+
+	// Set body
+	body := map[string]any{
+		"value": value,
+	}
+	jsonBody, err := json.Marshal(body)
+	if err != nil {
+		return err
+	}
+	req.Body = io.NopCloser(bytes.NewReader(jsonBody))
+
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusCreated {
+		return errors.New("failed to put data, status code: " + resp.Status)
+	}
+
+	return nil
 }
