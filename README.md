@@ -1,22 +1,14 @@
-# sso-baidu-pan
-> Sso for baidu pan.
+# go-leancloud
+> Leancloud sdk for golang.
 
 ## installation
-```shell
-npm install -S @feizheng/sso-baidu-pan
+```sh
+go get -u github.com/afeiship/go-leancloud
 ```
 
 ## usage
-```js
-import ssoBaiduPan from '@feizheng/sso-baidu-pan';
+```go
+package main
 
-const cookies = await ssoBaiduPan({
-  username: 'YOUR_QQ_NO',
-  password: 'YOUR_PASSWORD'
-});
-// set cookies
-// page.setCookie(...cookies)
+// code here
 ```
-
-## ubuntu
-- https://github.com/puppeteer/puppeteer/issues/2462
