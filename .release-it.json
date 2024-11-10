@@ -4,7 +4,8 @@
     "requireCleanWorkingDir": false,
     "requireBranch": false,
     "requireUpstream": true,
-    "requireCommits": false
+    "requireCommits": false,
+    "tagName": "v${version}"
   },
   "hooks": {
     "before:init": ["git fetch --tags"],
