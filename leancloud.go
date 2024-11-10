@@ -127,9 +127,6 @@ func (c *LeanCloudClient) Set(key string, value any) error {
 	}
 	defer resp.Body.Close()
 
-	respBody, _ := io.ReadAll(resp.Body)
-	fmt.Println("Response Body:", string(respBody))
-
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
 		return errors.New("failed to put data, status code: " + resp.Status)
 	}
