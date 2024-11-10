@@ -15,13 +15,6 @@ var lcKey = os.Getenv("LEANCLOUD_KEY")
 var lcHost = os.Getenv("LEANCLOUD_HOST")
 var apiBaseURL = "https://" + lcHost + "/1.1/classes/options"
 
-//	/{
-//	  "key": "lc_test",
-//	  "value": "new value by aric",
-//	  "createdAt": "2021-07-21T01:46:54.781Z",
-//	  "updatedAt": "2024-11-10T17:19:11.493Z",
-//	  "objectId": "60f77c8e85071346450995d3"
-//	}
 type LcResult struct {
 	Key       string `json:"key"`
 	Value     any    `json:"value"`
