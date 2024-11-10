@@ -1,7 +1,7 @@
 {
   "name": "go-leancloud",
   "private": true,
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Leancloud sdk for golang.",
   "license": "MIT",
   "scripts": {
@@ -11,6 +11,7 @@
   "keywords": [
     "golang",
     "lc",
-    "leancloud"
+    "leancloud",
+    "gjson"
   ]
 }
