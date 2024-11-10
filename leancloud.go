@@ -70,6 +70,11 @@ func (c *LeanCloudClient) Get(key string) (LcResult, error) {
 		return LcResult{}, err
 	}
 
+	// try to unmarshal value
+	var value any
+	if err := json.Unmarshal([]byte(jsonBody.Value.(string)), &value); err == nil {
+		jsonBody.Value = value
+	}
 	return jsonBody, nil
 }
 
@@ -85,7 +90,28 @@ func (c *LeanCloudClient) Value(key string) (any, error) {
 // put
 func (c *LeanCloudClient) Put(key string, value any) error {
 	resurl := fmt.Sprintf("%s/%s", c.baseURL, key)
-	req, err := http.NewRequest("PUT", resurl, nil)
+
+	// 将 value 转换为 JSON 字符串
+	jsonValue, err := json.Marshal(value)
+	if err != nil {
+		return fmt.Errorf("failed to marshal value to JSON string: %w", err)
+	}
+
+	fmt.Println("raw json value: ", string(jsonValue))
+
+	body := map[string]any{
+		"value": string(jsonValue),
+	}
+
+	jsonData, err := json.Marshal(body)
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON: %w", err)
+	}
+
+	fmt.Println("json data: ", string(jsonData))
+	fmt.Println("resurl: ", resurl)
+
+	req, err := http.NewRequest("PUT", resurl, io.NopCloser(bytes.NewReader(jsonData)))
 	if err != nil {
 		return err
 	}
@@ -95,23 +121,16 @@ func (c *LeanCloudClient) Put(key string, value any) error {
 	req.Header.Add("X-LC-Key", c.lcKey)
 	req.Header.Add("Content-Type", "application/json")
 
-	// Set body
-	body := map[string]any{
-		"value": value,
-	}
-	jsonBody, err := json.Marshal(body)
-	if err != nil {
-		return err
-	}
-	req.Body = io.NopCloser(bytes.NewReader(jsonBody))
-
 	resp, err := c.client.Do(req)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusCreated {
+	respBody, _ := io.ReadAll(resp.Body)
+	fmt.Println("Response Body:", string(respBody))
+
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
 		return errors.New("failed to put data, status code: " + resp.Status)
 	}
 
