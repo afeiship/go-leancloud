@@ -1,0 +1,12 @@
+@lcId = {{$processEnv LEANCLOUD_ID}}
+@lcKey = {{$processEnv LEANCLOUD_KEY}}
+@lcURL = {{${{$processEnv LEANCLOUD_URL}}
+
+### GET object value
+# https://docs.leancloud.cn/sdk/storage/guide/rest/
+
+# GET https://8alqie7r.lc-cn-n1-shared.com/1.1/classes/options/60f77c8e85071346450995d3
+GET https://lc.js.work/1.1/classes/options/60f77c8e85071346450995d3
+X-LC-Id: {{ lcId }}
+X-LC-Key: {{ lcKey }}
+Content-Type: application/json
