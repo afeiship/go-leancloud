@@ -31,7 +31,7 @@ func TestValue(f *testing.T) {
 	if err != nil {
 		log.Fatalf("Failed to get value: %v", err)
 	}
-	fmt.Printf("Value: %v\n", value)
+	fmt.Printf("Value: %s\n", value)
 }
 
 func TestSet(f *testing.T) {

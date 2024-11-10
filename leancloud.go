@@ -30,7 +30,7 @@ func New() *LeanCloudClient {
 
 type LcResult struct {
 	Key       string `json:"key"`
-	Value     any    `json:"value"`
+	Value     string `json:"value"`
 	CreatedAt string `json:"createdAt"`
 	UpdatedAt string `json:"updatedAt"`
 	ObjectId  string `json:"objectId"`
@@ -71,18 +71,18 @@ func (c *LeanCloudClient) Get(key string) (LcResult, error) {
 	}
 
 	// try to unmarshal value
-	var value any
-	if err := json.Unmarshal([]byte(jsonBody.Value.(string)), &value); err == nil {
+	var value string
+	if err := json.Unmarshal([]byte(jsonBody.Value), &value); err == nil {
 		jsonBody.Value = value
 	}
 	return jsonBody, nil
 }
 
 // Value fetches only the value associated with a given key
-func (c *LeanCloudClient) Value(key string) (any, error) {
+func (c *LeanCloudClient) Value(key string) (string, error) {
 	result, err := c.Get(key)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	return result.Value, nil
 }
@@ -107,9 +107,6 @@ func (c *LeanCloudClient) Set(key string, value any) error {
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON: %w", err)
 	}
-
-	fmt.Println("json data: ", string(jsonData))
-	fmt.Println("resurl: ", resurl)
 
 	req, err := http.NewRequest("PUT", resurl, bytes.NewReader(jsonData))
 	if err != nil {
