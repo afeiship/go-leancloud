@@ -12,3 +12,9 @@ func TestGet(f *testing.T) {
 	res := leancloud.Get("60f77c8e85071346450995d3")
 	fmt.Println("result: ", res)
 }
+
+func TestValue(f *testing.T) {
+	// init
+	res := leancloud.Value("60f77c8e85071346450995d3")
+	fmt.Println("result: ", res)
+}

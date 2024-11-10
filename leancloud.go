@@ -2,7 +2,6 @@ package leancloud
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -34,13 +33,11 @@ type LcResult struct {
 func Get(key string) LcResult {
 	client := &http.Client{}
 	resURL := apiBaseURL + "/" + key
-	fmt.Println("resURL:", resURL)
 	req, err := http.NewRequest("GET", resURL, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("req:", req)
 	// add headers
 	req.Header.Add("X-LC-Id", lcId)
 	req.Header.Add("X-LC-Key", lcKey)
@@ -67,4 +64,10 @@ func Get(key string) LcResult {
 	}
 
 	return jsonBody
+}
+
+// get Value
+func Value(key string) any {
+	result := Get(key)
+	return result.Value
 }
