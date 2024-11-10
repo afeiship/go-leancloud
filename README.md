@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/afeiship/go-leancloud/leancloud"
+	"github.com/afeiship/go-leancloud"
 )
 
 var client = leancloud.New()
