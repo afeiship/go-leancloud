@@ -111,7 +111,7 @@ func (c *LeanCloudClient) Set(key string, value any) error {
 	fmt.Println("json data: ", string(jsonData))
 	fmt.Println("resurl: ", resurl)
 
-	req, err := http.NewRequest("PUT", resurl, io.NopCloser(bytes.NewReader(jsonData)))
+	req, err := http.NewRequest("PUT", resurl, bytes.NewReader(jsonData))
 	if err != nil {
 		return err
 	}
