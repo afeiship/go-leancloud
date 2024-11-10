@@ -34,14 +34,14 @@ func TestValue(f *testing.T) {
 	fmt.Printf("Value: %v\n", value)
 }
 
-func TestPut(f *testing.T) {
+func TestSet(f *testing.T) {
 	// init
 	// 新增或更新数据
-	err := client.Put("60f77c8e85071346450995d3", map[string]any{
+	err := client.Set("60f77c8e85071346450995d3", map[string]any{
 		"name": "go-leancloud",
 		"age":  25,
 	})
 	if err != nil {
-		log.Fatalf("Failed to put object: %v", err)
+		log.Fatalf("Failed to set object: %v", err)
 	}
 }

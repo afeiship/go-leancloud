@@ -87,8 +87,8 @@ func (c *LeanCloudClient) Value(key string) (any, error) {
 	return result.Value, nil
 }
 
-// put
-func (c *LeanCloudClient) Put(key string, value any) error {
+// set
+func (c *LeanCloudClient) Set(key string, value any) error {
 	resurl := fmt.Sprintf("%s/%s", c.baseURL, key)
 
 	// 将 value 转换为 JSON 字符串
