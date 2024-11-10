@@ -97,8 +97,6 @@ func (c *LeanCloudClient) Set(key string, value any) error {
 		return fmt.Errorf("failed to marshal value to JSON string: %w", err)
 	}
 
-	fmt.Println("raw json value: ", string(jsonValue))
-
 	body := map[string]any{
 		"value": string(jsonValue),
 	}
